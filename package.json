@@ -1,0 +1,26 @@
+{
+  "name": "bua",
+  "version": "1.0.0",
+  "description": "Backup archive, as a tar alternative.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scrwdrv/bua.git"
+  },
+  "keywords": [
+    "bua",
+    "tar",
+    "archive",
+    "rar",
+    "zip"
+  ],
+  "author": "scrwdrv",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/scrwdrv/bua/issues"
+  },
+  "homepage": "https://github.com/scrwdrv/bua#readme"
+}
