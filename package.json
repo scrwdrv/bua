@@ -4,7 +4,7 @@
   "description": "Backup archive, as a tar alternative.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/scrwdrv/bua/issues"
   },
-  "homepage": "https://github.com/scrwdrv/bua#readme"
+  "homepage": "https://github.com/scrwdrv/bua#readme",
+  "devDependencies": {
+    "@types/node": "^13.5.0"
+  }
 }
