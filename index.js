@@ -1,19 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const stream = require("stream");
-var Bua;
-(function (Bua) {
-    class ExtractStream extends stream.Readable {
-        constructor() {
-            super();
-        }
-        skip(cb) {
-            this.on('end', cb);
-            this.resume();
-        }
+class ExtractStream extends stream.Readable {
+    constructor() {
+        super();
     }
-    Bua.ExtractStream = ExtractStream;
-})(Bua || (Bua = {}));
+    skip(cb) {
+        this.on('end', cb);
+        this.resume();
+    }
+}
 class Extract {
     constructor() {
         this.input = new stream.Writable();
@@ -36,7 +32,7 @@ class Extract {
                     }, nextChunk = previousBuffer.slice(indexHeader.nameLength);
                     indexHeader = null;
                     exec = () => {
-                        currentStream = new Bua.ExtractStream();
+                        currentStream = new ExtractStream();
                         currentStream._read = () => { };
                         this.entryHandler(header, currentStream, (err) => {
                             currentStream = null;

@@ -1,30 +1,32 @@
 /// <reference types="node" />
 import * as stream from 'stream';
-declare namespace Bua {
-    interface Header {
-        name: string;
-        size: number;
-        mtime?: number;
-        mode?: number;
-        type: 'file' | 'directory';
+declare global {
+    namespace Bua {
+        interface Header {
+            name: string;
+            size: number;
+            mtime?: number;
+            mode?: number;
+            type: 'file' | 'directory';
+        }
+        interface IndexHeader {
+            size: number;
+            mtime: number;
+            mode: number;
+            type: 'file' | 'directory';
+            nameLength: number;
+        }
     }
-    interface IndexHeader {
-        size: number;
-        mtime: number;
-        mode: number;
-        type: 'file' | 'directory';
-        nameLength: number;
-    }
-    class ExtractStream extends stream.Readable {
-        constructor();
-        skip(cb: () => void): void;
-    }
+}
+declare class ExtractStream extends stream.Readable {
+    constructor();
+    skip(cb: () => void): void;
 }
 export declare class Extract {
     input: stream.Writable;
     private entryHandler;
     constructor();
-    entry(cb: (header: Bua.Header, stream: Bua.ExtractStream, next: (err?: any) => void) => void): void;
+    entry(cb: (header: Bua.Header, stream: ExtractStream, next: (err?: any) => void) => void): void;
 }
 export declare class Pack {
     output: stream.Readable;

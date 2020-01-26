@@ -1,39 +1,38 @@
 import * as stream from 'stream';
 
-namespace Bua {
-
-    export interface Header {
-        name: string;
-        size: number;
-        mtime?: number;
-        mode?: number;
-        type: 'file' | 'directory'
-    }
-
-    export interface IndexHeader {
-        size: number;
-        mtime: number;
-        mode: number;
-        type: 'file' | 'directory'
-        nameLength: number;
-    }
-
-    export class ExtractStream extends stream.Readable {
-        constructor() {
-            super();
+declare global {
+    namespace Bua {
+        export interface Header {
+            name: string;
+            size: number;
+            mtime?: number;
+            mode?: number;
+            type: 'file' | 'directory'
         }
-        skip(cb: () => void) {
-            this.on('end', cb);
-            this.resume();
+        export interface IndexHeader {
+            size: number;
+            mtime: number;
+            mode: number;
+            type: 'file' | 'directory'
+            nameLength: number;
         }
     }
+}
 
+class ExtractStream extends stream.Readable {
+    constructor() {
+        super();
+    }
+    skip(cb: () => void) {
+        this.on('end', cb);
+        this.resume();
+    }
 }
 
 export class Extract {
 
     public input: stream.Writable;
-    private entryHandler: (header: Bua.Header, stream: Bua.ExtractStream, next: (err?: any) => void) => void;
+    private entryHandler: (header: Bua.Header, stream: ExtractStream, next: (err?: any) => void) => void;
 
     constructor() {
 
@@ -47,7 +46,7 @@ export class Extract {
         let bytesLeft = 0,
             indexHeader: Bua.IndexHeader = null,
             previousBuffer: Buffer,
-            currentStream: Bua.ExtractStream = null,
+            currentStream: ExtractStream = null,
             exec: Function;
 
         const parseChunk = (c: Buffer, next: () => void) => {
@@ -69,7 +68,7 @@ export class Extract {
                     indexHeader = null;
 
                     exec = () => {
-                        currentStream = new Bua.ExtractStream();
+                        currentStream = new ExtractStream();
                         currentStream._read = () => { };
 
                         this.entryHandler(header, currentStream, (err) => {
@@ -159,7 +158,7 @@ export class Extract {
         }
     }
 
-    entry(cb: (header: Bua.Header, stream: Bua.ExtractStream, next: (err?: any) => void) => void) {
+    entry(cb: (header: Bua.Header, stream: ExtractStream, next: (err?: any) => void) => void) {
         this.entryHandler = cb;
     }
 
