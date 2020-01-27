@@ -92,7 +92,7 @@ export class Extract {
 
             } else {
 
-                const cL = c.length,
+                const cL = (previousBuffer ? previousBuffer.length : 0) + c.length,
                     diff = bytesLeft - cL;
 
                 if (diff < 0) {
