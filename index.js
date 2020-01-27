@@ -56,7 +56,7 @@ class Extract {
                     next();
             }
             else {
-                const cL = c.length, diff = bytesLeft - cL;
+                const cL = (previousBuffer ? previousBuffer.length : 0) + c.length, diff = bytesLeft - cL;
                 if (diff < 0) {
                     appendBuffer(c);
                     const indexOfLastComma = findComma();
