@@ -32,7 +32,7 @@ export declare class Pack {
     output: stream.Readable;
     constructor();
     finalize(): void;
-    entry(header: Bua.Header, next: (err?: Error) => void): stream.Writable;
+    entry(header: Bua.Header, cb: (err?: Error) => void): stream.Writable;
     writeHeader(header: Bua.Header): void;
 }
 export {};

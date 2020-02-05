@@ -177,13 +177,20 @@ export class Pack {
         this.output.push(null);
     }
 
-    entry(header: Bua.Header, next: (err?: Error) => void) {
+    entry(header: Bua.Header, cb: (err?: Error) => void) {
+
+        let bytes = 0;
 
         this.writeHeader(header);
 
-        const ws = new stream.Writable().on('finish', next);
+        const ws = new stream.Writable().on('finish', () => {
+            if (bytes < header.size) return cb(new Error(`File Size smaller than provided: ${header.size}`));
+            cb();
+        });
 
         ws._write = (chunk, encoding, next) => {
+            bytes += chunk.length;
+            if (bytes > header.size) return cb(new Error(`File Size bigger than provided: ${header.size}`));
             this.output.push(chunk);
             next();
         };
